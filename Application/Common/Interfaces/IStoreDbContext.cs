@@ -1,5 +1,4 @@
 ﻿using Domain.Entities;
-using Domain.Entities.Product;
 using Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,9 +14,6 @@ namespace Application.Common.Interfaces
         DbSet<User> Users { get; set; }
         DbSet<Role> Roles { get; set; }
         DbSet<UserInRole> UserInRoles { get; set; }
-        DbSet<Category> Categories { get; set; }
-        DbSet<Product> Products { get; set; }
-
 
 
         int SaveChanges(bool acceptAllChangesOnSuccess);

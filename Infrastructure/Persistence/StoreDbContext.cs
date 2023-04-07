@@ -1,7 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Common.Roles;
 using Domain.Entities;
-using Domain.Entities.Product;
 using Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,7 +22,9 @@ namespace Infrastructure.Persistence
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserInRole> UserInRoles { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
+
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=. ;Initial Catalog=StoreDatabase;Integrated Security=True ; Encrypt=False ;");

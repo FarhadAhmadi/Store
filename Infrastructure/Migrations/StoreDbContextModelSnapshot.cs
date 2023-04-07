@@ -22,7 +22,7 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.Product.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,81 +30,18 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CategoryName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("InsertTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRemove")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ParentCategoryId")
+                    b.Property<int?>("ParentId")
                         .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("RemoveTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentCategoryId");
-
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Product.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("InsertTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRemove")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Picture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("RemoveTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>
@@ -253,23 +190,13 @@ namespace Infrastructure.Migrations
                     b.ToTable("UserInRoles");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Product.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.HasOne("Domain.Entities.Product.Category", "ParentCategory")
-                        .WithMany("ChildCategories")
-                        .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Domain.Entities.Category", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
 
-                    b.HasOne("Domain.Entities.Product.Product", "Product")
-                        .WithMany("Categories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParentCategory");
-
-                    b.Navigation("Product");
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Domain.Entities.User.UserInRole", b =>
@@ -291,14 +218,9 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Product.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.Navigation("ChildCategories");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Product.Product", b =>
-                {
-                    b.Navigation("Categories");
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>

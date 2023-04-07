@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20230405083820_EditUserEntity")]
-    partial class EditUserEntity
+    [Migration("20230407113523_StartProject")]
+    partial class StartProject
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,28 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Categories");
+                });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>
                 {
@@ -83,7 +105,7 @@ namespace Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.User", b =>
+            modelBuilder.Entity("Domain.Entities.User.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +118,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -127,10 +149,13 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserInRole", b =>
+            modelBuilder.Entity("Domain.Entities.User.UserInRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -168,7 +193,16 @@ namespace Infrastructure.Migrations
                     b.ToTable("UserInRoles");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserInRole", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.HasOne("Domain.Entities.Category", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User.UserInRole", b =>
                 {
                     b.HasOne("Domain.Entities.Role", "Role")
                         .WithMany("userInRoles")
@@ -176,7 +210,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.User", "User")
+                    b.HasOne("Domain.Entities.User.User", "User")
                         .WithMany("userInRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -187,12 +221,17 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Children");
+                });
+
             modelBuilder.Entity("Domain.Entities.Role", b =>
                 {
                     b.Navigation("userInRoles");
                 });
 
-            modelBuilder.Entity("Domain.Entities.User", b =>
+            modelBuilder.Entity("Domain.Entities.User.User", b =>
                 {
                     b.Navigation("userInRoles");
                 });

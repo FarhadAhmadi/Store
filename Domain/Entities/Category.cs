@@ -13,5 +13,7 @@ namespace Domain.Entities
         public virtual Category Parent { get; set; }
         public int? ParentId { get; set; }
         public virtual ICollection<Category> Children { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

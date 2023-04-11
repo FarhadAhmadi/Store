@@ -73,6 +73,20 @@
 
     <script>
         function Registeruser() {
+
+            var username = $("#UserNameInput").val();
+            var email = $("#EmailInput").val();
+            var roleid = $("#RoleInput").val();
+            var phone = $("#PhoneInput").val();
+            var password = $("#PasswordInput").val();
+            var repassword = $("#RepasswordInput").val();
+
+            if (username || username == "") {
+                alert('please fill username');
+                return;
+            }
+
+
             swal.fire({
                 title: 'ثبت نام کاربر',
                 text: "آیا میخواهید ثبت نام کاربر را انجام دهید؟",
@@ -92,20 +106,8 @@
                     //data.append("Password", $("#PasswordInput").val());
                     //data.append("RePassword", $("#RepasswordInput").val());
 
-                    var username = $("#UserNameInput").val();
-                    var email = $("#EmailInput").val();
-                    var roleid = $("#RoleInput").val();
-                    var phone = $("#PhoneInput").val();
-                    var password = $("#PasswordInput").val();
-                    var repassword = $("#RepasswordInput").val();
-
-                    var postData = {
-                        'UserName': username,
-                        'Email': email,
-                        'RoleId': roleid,
-                        'Phone': phone,
-                        'Password': password,
-                        'RePassword': repassword,
+                    var addUserViewModel = {
+                        'FullName': 'Abbas' 
                     };
 
                     $.ajax({
@@ -113,7 +115,7 @@
                         dataType: 'json',
                         type: "POST",
                         url: "AddUser",
-                        data: postData,
+                        data: addUserViewModel,
                         success: function (data) {
                             if (data.IsSuccess == true) {
                                 swal.fire(

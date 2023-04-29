@@ -32,7 +32,7 @@ namespace Application.Services.Users.Commands.UserLogin
                 {
                     Result = null,
                     Message = "ایمیل و رمز عبور را وارد کنید",
-                    Success = false
+                    IsSuccess = false
                 };
             }
 
@@ -41,7 +41,7 @@ namespace Application.Services.Users.Commands.UserLogin
             var user = _context.Users
                         .Include(p => p.userInRoles)
                         .ThenInclude(p => p.Role)
-                        .Where(p => p.Email.Equals(request.email) && p.IsActive == true)
+                        .Where(p => p.Email.Equals(request.email))
                         .FirstOrDefault();
 
 
@@ -51,22 +51,19 @@ namespace Application.Services.Users.Commands.UserLogin
                 {
                     Result = null,
                     Message = "کاربری با این ایمیل در فروشگاه ثبت نام نکرده است",
-                    Success = false
+                    IsSuccess = false
                 };
             }
 
 
-            var passwordHasher = new PasswordHasher();
 
-            bool passwordChecked = passwordHasher.VerifyPassword(user.Password, request.password);
-
-            if (passwordChecked != true)
+            if (user.Password != request.password)
             {
                 return new ResultDto<ResultUserloginDto>
                 {
                     Result = null,
                     Message = "رمز وارد شده اشتباه است",
-                    Success = false
+                    IsSuccess = false
                 };
             }
 
@@ -85,7 +82,7 @@ namespace Application.Services.Users.Commands.UserLogin
                     UserId = user.Id,
                 },
                 Message = "ورود با موفقیت انجام شد",
-                Success = true
+                IsSuccess = true
             };
         }
     }

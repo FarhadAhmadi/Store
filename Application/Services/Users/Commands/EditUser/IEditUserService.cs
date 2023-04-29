@@ -36,6 +36,7 @@ namespace Application.Services.Users.Commands.EditUser
                 result.Password = editUserDto.Password;
                 result.PhoneNumber = editUserDto.PhoneNumber;
                 result.FullName = editUserDto.UserName;
+                result.UpdateTime = DateTime.Now;
 
                 _context.SaveChanges();
 

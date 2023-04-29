@@ -23,7 +23,9 @@ namespace Infrastructure.Persistence
         public DbSet<UserInRole> UserInRoles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-
+        public DbSet<ProductImages> ProductImages { get; set; }
+        public DbSet<ProductComments> ProductComments { get; set; }
+        public DbSet<ProductPrice> ProductPrices  { get; set; }
 
 
 
@@ -45,6 +47,7 @@ namespace Infrastructure.Persistence
         private void ApplyQueryFilter(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasQueryFilter(e => !e.IsRemove);
+            modelBuilder.Entity<Category>().HasQueryFilter(e => !e.IsRemove);
         }
         private void RoleHasData(ModelBuilder modelBuilder)
         {

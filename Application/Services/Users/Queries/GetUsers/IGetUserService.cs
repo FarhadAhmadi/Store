@@ -9,6 +9,6 @@ namespace Application.Services.Users.Queries.GetUsers
 {
     public interface IGetUserService
     {
-        ResultDto<List<UsersDto>> Execute();
+        ResultGetUsersDto Execute(string searchKey);
     }
 }

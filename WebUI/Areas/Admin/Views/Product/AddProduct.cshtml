@@ -1,0 +1,223 @@
+﻿@addTagHelper * , Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "AddProduct";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div @*role="form"*@>
+    <div class="box-body">
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1" >
+            <label for="exampleInputPassword1">نام محصول </label>
+            <input type="text" class="form-control" id="ProductNameInput" placeholder="نام محصول">
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1" >
+            <label for="exampleInputPassword1">برند </label>
+            <input type="email" class="form-control" id="BrandInput" placeholder="برند">
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1" >
+            <label> دسته بندی را انتخاب کنید</label>
+            <select asp-items=@ViewBag.Parents class="form-control" id="CategoryInput">
+            </select>
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1" >
+            <label> تعداد موجود </label>
+            <div class="input-group">
+            </div>
+            <input type="text" class="form-control" id="CountInput" />
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput"> قیمت</label>
+                <input type="number" class="form-control" id="PriceInput">
+            </fieldset>
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput">نمایش داده شود؟ </label>
+                <input type="checkbox" class="form-control" id="DisplayedInput">
+            </fieldset>
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput">تصاویر </label>
+                <input type="file" multiple class="form-control" accept="image/*" id="ImagesInput">
+            </fieldset>
+        </div>
+        <div class="form-group col-xl-12 col-lg-12 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput"> توضیحات</label>
+                <textarea id="DescriptionInput" class="form-control " rows="5"></textarea>
+            </fieldset>
+        </div>
+        <hr />
+        <hr />
+        <hr />
+        <br>
+        <br>
+        <br>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput"> نام ویژگی </label>
+                <input type="text" class="form-control" id="txtDisplayName" placeholder="نام ویژگی" />
+            </fieldset>
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput"> مقدار ویژگی </label>
+                <input type="text" class="form-control" id="txtValue" placeholder="مقدار ویژگی" />
+            </fieldset>
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <br />
+                <a class="btn btn-success" id="btnAddFeatures">افزودن</a>
+            </fieldset>
+        </div>
+        <br class="clear" />
+        <table id="tbl_Features" class="col-md-12 table table-bordered table-hover  table-condensed table-responsive">
+            <thead>
+                <tr>
+                    <th>
+                        نام ویژگی
+                    </th>
+                    <th>
+                        مقدار ویژگی
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<div class="box-footer">
+    <button class="btn btn-primary" onclick="RegisterProduct()">افزودن محصول</button>
+</div>
+
+@section javascript
+    {
+
+    <link href="/Sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="/Sweetalert2/sweetalert2.min.js"></script>
+
+
+    <script>
+        $("#btnAddFeatures").on("click", function () {
+
+            var txtDisplayName = $("#txtDisplayName").val();
+            var txtValue = $("#txtValue").val();
+
+            if (txtDisplayName == "" || txtValue == "") {
+                swal.fire(
+                    'هشدار!',
+                    "نام و مقدار را باید وارد کنید",
+                    'warning'
+                );
+            }
+            else {
+                $('#tbl_Features tbody').append('<tr> <td>' + txtDisplayName + '</td>  <td>' + txtValue + '</td> <td> <a class="idFeatures btnDelete btn btn-danger"> حذف </a> </td> </tr>');
+                $("#txtDisplayName").val('');
+                $("#txtValue").val('');
+            }
+        });
+
+        $("#tbl_Features").on('click', '.idFeatures', function () {
+            $(this).closest('tr').remove();
+        });
+
+        function RegisterProduct() {
+
+
+
+
+
+            swal.fire({
+                title: 'ثبت نام کاربر',
+                text: "آیا میخواهید ثبت کالا را انجام دهید؟",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله ثبت نام انجام شود',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    debugger
+                    var data = new FormData();
+
+
+                    //data.append("ProductName", $("#ProductNameInput").val());
+                    //data.append("Brand", $("#BrandInput").val());
+                    //data.append("CategoryId", $("#CategoryInput").val());
+                    //data.append("Count", $("#CountInput").val());
+                    //data.append("Price", $("#PriceInput").val());
+                    //data.append("Displayed", $("#DisplayedInput").val());
+                    //data.append("Description", $("#DescriptionInput").val());
+
+                    var productName = $("#ProductNameInput").val();
+                    var brand = $("#BrandInput").val();
+                    var categoryId = $("#CategoryInput").val();
+                    var count = $("#CountInput").val();
+                    var price = $("#PriceInput").val();
+                    //var displayed = $("#DisplayedInput").val();
+                    var description = $("#DescriptionInput").val();
+
+                    var data = {
+                        'ProductName': productName,
+                        'Brand': brand,
+                        'CategoryId': categoryId,
+                        'Count': count,
+                        'Price': price,
+                        //'Displayed': displayed,
+                        'Description': description,
+                    };
+
+
+
+
+                    $.ajax({
+
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "AddProduct",
+                        data: data,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.Message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+
+
+                            }
+                            else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+
+                }
+            })
+        }
+    </script>
+}

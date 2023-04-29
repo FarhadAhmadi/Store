@@ -72,19 +72,9 @@
 
 
     <script>
+        
         function Registeruser() {
 
-            var username = $("#UserNameInput").val();
-            var email = $("#EmailInput").val();
-            var roleid = $("#RoleInput").val();
-            var phone = $("#PhoneInput").val();
-            var password = $("#PasswordInput").val();
-            var repassword = $("#RepasswordInput").val();
-
-            if (username || username == "") {
-                alert('please fill username');
-                return;
-            }
 
 
             swal.fire({
@@ -98,26 +88,32 @@
                 cancelButtonText: 'خیر'
             }).then((result) => {
                 if (result.value) {
-                    //var data  = new FormData()
-                    //data.append("UserName", $("#FullName").val());
-                    //data.append("Email", $("#EmailInput").val());
-                    //data.append("RoleId", $("#RoleInput").val());
-                    //data.append("Phone", $("#PhoneInput").val());
-                    //data.append("Password", $("#PasswordInput").val());
-                    //data.append("RePassword", $("#RepasswordInput").val());
+
+                    var username = $("#UserNameInput").val();
+                    var email = $("#EmailInput").val();
+                    var roleid = $("#RoleInput").val();
+                    var phone = $("#PhoneInput").val();
+                    var password = $("#PasswordInput").val();
+                    var repassword = $("#RepasswordInput").val();
 
                     var addUserViewModel = {
-                        'FullName': 'Abbas' 
+                        'UserName': username,
+                        'Email': email,
+                        'RoleId': roleid,
+                        'PhoneNumber': phone,
+                        'Password': password,
+                        'RePassword': repassword,
                     };
 
                     $.ajax({
+                        
                         contentType: 'application/x-www-form-urlencoded',
                         dataType: 'json',
                         type: "POST",
                         url: "AddUser",
                         data: addUserViewModel,
                         success: function (data) {
-                            if (data.IsSuccess == true) {
+                            if (data.isSuccess == true) {
                                 swal.fire(
                                     'موفق!',
                                     data.Message,
@@ -144,7 +140,7 @@
 
                     });
 
-                    
+
                 }
             })
         }

@@ -116,30 +116,22 @@
             url: "SignIn",
             data: postData,
             success: function (data) {
-                if (data.isSuccess == true) {
-                    swal.fire(
-                        'موفق!',
-                        data.message,
-                        'success'
-                    ).then(function (isConfirm) {
-                        window.location.replace("/");
-                    });
+                debugger
+                if (data.success == true) {
+                    //alert('success1');
+                    window.location = '/';
                 }
                 else {
-
-                    swal.fire(
-                        'هشدار!',
-                        data.message,
-                        'warning'
-                    );
+                    alert('success2');
+                    //swal.fire(
+                    //    'هشدار!',
+                    //    data.message,
+                    //    'warning'
+                    //);
                 }
             },
             error: function (request, status, error) {
-                swal.fire(
-                    'هشدار!',
-                    request.responseText,
-                    'warning'
-                );
+                alert('error');
             }
         });
     }

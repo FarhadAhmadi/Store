@@ -8,7 +8,7 @@ namespace Application.Common.DTO
 {
     public class ResultDto<Data>
     {
-        public bool Success { get; set; }
+        public bool IsSuccess { get; set; }
         public string Message { get; set; }
         public Data? Result { get; set; }
 

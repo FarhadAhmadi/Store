@@ -1,0 +1,100 @@
+﻿@addTagHelper * , Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "AddCategory";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="box-body">
+    <div class="form-group col-sm-6">
+        <label for="exampleInputEmail1">نام دسته بندی</label>
+        <input type="email" class="form-control" id="categoryInput" placeholder="نام دسته بندی ">
+    </div>
+
+    <fieldset class="form-group col-sm-4">
+        <label> پدر دسته بندی </label>
+        <select asp-items=@ViewBag.parents name="Parents"  class="form-control" id="ParentInput">
+        </select>
+    </fieldset>
+</div>
+
+<div class="box-footer">
+    <button class="btn btn-primary" onclick="RegisterCategory()">ثبت</button>
+</div>
+
+@section javascript
+    {
+
+    <link href="/Sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="/Sweetalert2/sweetalert2.min.js"></script>
+
+
+    <script>
+
+        function RegisterCategory() {
+
+
+
+            swal.fire({
+                title: 'ثبت نام کاربر',
+                text: "آیا میخواهید ثبت نام دسته را انجام دهید؟",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله ثبت نام انجام شود',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    debugger
+
+                    var categoryName = $("#categoryInput").val();
+                    var parentId = $("#ParentInput").val();
+
+                    var addUserViewModel = {
+                        'categoryName': categoryName,
+                        'parentId': parentId,
+                    };
+
+                    $.ajax({
+
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "AddCategory",
+                        data: addUserViewModel,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+
+
+                            }
+                            else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+
+                }
+            })
+        }
+    </script>
+}

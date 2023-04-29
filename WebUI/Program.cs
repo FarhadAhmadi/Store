@@ -1,6 +1,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Facad;
 using Application.Services.Category.FacadPattern;
+using Application.Services.Products.FacadPattern;
 using Application.Services.Roles.Queries.GetRoles;
 using Application.Services.Users.Commands.AddUser;
 using Application.Services.Users.Commands.DeleteUser;
@@ -34,6 +35,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IStoreDbContext, StoreDbContext>();
 builder.Services.AddScoped<IGetRolesService, GetRolesService>();
 builder.Services.AddScoped<IUserFacad,UserFacad>();
+builder.Services.AddScoped<ICategoryFacad,CategoryFacad>();
+builder.Services.AddScoped<IProductFacad,ProductFacad>();
 
 builder.Services.AddDbContext<StoreDbContext>(e => e.UseSqlServer("Data Source=. ;Initial Catalog=StoreDatabase;Integrated Security=True ; Encrypt=False ;"));
 
@@ -56,9 +59,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{area=admin}/{controller=user}/{action=index}/{id?}");
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=Admin}/{controller=User}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseEndpoints(endpoints =>
 

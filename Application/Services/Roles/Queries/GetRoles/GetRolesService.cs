@@ -21,7 +21,7 @@ namespace Application.Services.Roles.Queries.GetRoles
             return new ResultDto<List<GetRolesDto>>
             {
                 Result = result,
-                Success = true,
+                IsSuccess = true,
                 Message = ""
             };
         }

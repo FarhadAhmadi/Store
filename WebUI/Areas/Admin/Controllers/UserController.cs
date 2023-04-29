@@ -7,11 +7,11 @@ using Application.Services.Users.Commands.EditUser;
 using Application.Services.Users.Queries.GetUsers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WebUI.Areas.Admin.Models;
 
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-
     public class UserController : Controller
     {
         private readonly IGetRolesService _getRolesService;
@@ -24,41 +24,40 @@ namespace WebUI.Areas.Admin.Controllers
             _userFacad = userFacad;
         }
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string searchKey)
         {
-            return View(_userFacad.GetUserService.Execute());
+            return View(_userFacad.GetUserService.Execute(searchKey));
         }
         [HttpGet]
         public IActionResult AddUser()
         {
 
-            ViewBag.Items = new SelectList(_getRolesService.Execute().Result, "Id", "RoleName");
+            ViewBag.Items = new SelectList( _getRolesService.Execute().Result, "Id", "RoleName");
             return View();
         }
         [HttpPost]
-        public IActionResult AddUser(string UserName, string Email, int RoleId, string Phone, string Password, string RePassword)
+        public IActionResult AddUser(AddUserViewModel addUserViewModel)
         {
             var result = _userFacad.AddUserService.Execute(new RequestAddUserDto
             {
-                FullName = UserName,
-                Email = Email,
+                FullName = addUserViewModel.UserName,
+                Email = addUserViewModel.Email,
                 Role = new List<RoleInAddUser>
                 {
                     new RoleInAddUser
                     {
-                        RoleId  = RoleId,
+                        RoleId  = addUserViewModel.RoleId,
                     }
                 },
                 BirthdayDate = DateTime.Now,
-                Password = Password,
-                PhoneNumber = Phone,
-                RePassword = RePassword
-
+                Password = addUserViewModel.Password,
+                PhoneNumber = addUserViewModel.PhoneNumber,
+                RePassword = addUserViewModel.RePassword
             });
             return Json(result);
         }
         [HttpPost]
-        public IActionResult delete(int userId)
+        public IActionResult Delete(int userId)
         {
             return Json(_userFacad.DeleteUserService.Execute(userId));
         }
@@ -69,14 +68,14 @@ namespace WebUI.Areas.Admin.Controllers
             return Json(_userFacad.changeUserStatusService.Execute(userId));
         }
 
-        public IActionResult Edit(EditUserDto editUserDto)
+        public IActionResult Edit(editUserViewModel editUserViewModel)
         {
             var result = _userFacad.editUserService.Execute(new EditUserDto
             {
-                Id = editUserDto.Id,
-                Password = editUserDto.Password,
-                PhoneNumber = editUserDto.PhoneNumber,
-                UserName = editUserDto.UserName,
+                Id = editUserViewModel.Id,
+                Password = editUserViewModel.Password,
+                PhoneNumber = editUserViewModel.PhoneNumber,
+                UserName = editUserViewModel.UserName,
             });
 
             return Json(result);

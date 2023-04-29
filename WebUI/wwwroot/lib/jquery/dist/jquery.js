@@ -9177,7 +9177,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 /* Chain conversions given the request and the original response
  * Also sets the responseXXX fields on the jqXHR instance
  */
-function ajaxConvert( s, response, jqXHR, isSuccess ) {
+function ajaxConvert( s, response, jqXHR, Success ) {
 	var conv2, current, conv, tmp, prev,
 		converters = {},
 
@@ -9201,7 +9201,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 		}
 
 		// Apply the dataFilter if provided
-		if ( !prev && isSuccess && s.dataFilter ) {
+		if ( !prev && Success && s.dataFilter ) {
 			response = s.dataFilter( response, s.dataType );
 		}
 
@@ -9694,7 +9694,7 @@ jQuery.extend( {
 
 		// Callback for when everything is done
 		function done( status, nativeStatusText, responses, headers ) {
-			var isSuccess, success, error, response, modified,
+			var Success, success, error, response, modified,
 				statusText = nativeStatusText;
 
 			// Ignore repeat invocations
@@ -9720,7 +9720,7 @@ jQuery.extend( {
 			jqXHR.readyState = status > 0 ? 4 : 0;
 
 			// Determine if successful
-			isSuccess = status >= 200 && status < 300 || status === 304;
+			Success = status >= 200 && status < 300 || status === 304;
 
 			// Get response data
 			if ( responses ) {
@@ -9728,15 +9728,15 @@ jQuery.extend( {
 			}
 
 			// Use a noop converter for missing script
-			if ( !isSuccess && jQuery.inArray( "script", s.dataTypes ) > -1 ) {
+			if ( !Success && jQuery.inArray( "script", s.dataTypes ) > -1 ) {
 				s.converters[ "text script" ] = function() {};
 			}
 
 			// Convert no matter what (that way responseXXX fields are always set)
-			response = ajaxConvert( s, response, jqXHR, isSuccess );
+			response = ajaxConvert( s, response, jqXHR, Success );
 
 			// If successful, handle type chaining
-			if ( isSuccess ) {
+			if ( Success ) {
 
 				// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
 				if ( s.ifModified ) {
@@ -9763,7 +9763,7 @@ jQuery.extend( {
 					statusText = response.state;
 					success = response.data;
 					error = response.error;
-					isSuccess = !error;
+					Success = !error;
 				}
 			} else {
 
@@ -9782,7 +9782,7 @@ jQuery.extend( {
 			jqXHR.statusText = ( nativeStatusText || statusText ) + "";
 
 			// Success/Error
-			if ( isSuccess ) {
+			if ( Success ) {
 				deferred.resolveWith( callbackContext, [ success, statusText, jqXHR ] );
 			} else {
 				deferred.rejectWith( callbackContext, [ jqXHR, statusText, error ] );
@@ -9793,8 +9793,8 @@ jQuery.extend( {
 			statusCode = undefined;
 
 			if ( fireGlobals ) {
-				globalEventContext.trigger( isSuccess ? "ajaxSuccess" : "ajaxError",
-					[ jqXHR, s, isSuccess ? success : error ] );
+				globalEventContext.trigger( Success ? "ajaxSuccess" : "ajaxError",
+					[ jqXHR, s, Success ? success : error ] );
 			}
 
 			// Complete

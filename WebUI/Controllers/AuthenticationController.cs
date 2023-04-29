@@ -41,7 +41,7 @@ namespace WebUI.Controllers
 
 
 
-            if (signeupResult.Success == true)
+            if (signeupResult.IsSuccess == true)
             {
                 var claims = new List<Claim>()
                 {
@@ -70,7 +70,7 @@ namespace WebUI.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SignIn(string email , string password)
+        public IActionResult SignIn(string email, string password, string url = "/")
         {
             var signupResult = _userFacad.userLoginService.Execute(new RequestUserloginDto
             {
@@ -78,15 +78,15 @@ namespace WebUI.Controllers
                 password = password
             });
 
-            if (signupResult.Success == true)
+            if (signupResult.IsSuccess == true)
             {
                 var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.NameIdentifier,signupResult.Result.UserId.ToString()),
-                new Claim(ClaimTypes.Email,email),
-                new Claim(ClaimTypes.Name, signupResult.Result.Name),
+                {
+                    new Claim(ClaimTypes.NameIdentifier,signupResult.Result.UserId.ToString()),
+                    new Claim(ClaimTypes.Email,email),
+                    new Claim(ClaimTypes.Name, signupResult.Result.Name),
 
-            };
+                };
                 foreach (var item in signupResult.Result.Roles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, item));
@@ -101,8 +101,12 @@ namespace WebUI.Controllers
                 };
                 HttpContext.SignInAsync(principal, properties);
 
+                return Json(signupResult);
             }
-            return Json(signupResult);
+            else
+            {
+                return Json(signupResult);
+            }
         }
         public IActionResult SignOut()
         {

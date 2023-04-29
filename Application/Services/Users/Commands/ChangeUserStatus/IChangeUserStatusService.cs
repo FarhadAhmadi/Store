@@ -26,8 +26,8 @@ namespace Application.Services.Users.Commands.ChangeUserStatus
             {
                 return new ResultDto
                 {
-                    IsSuccess = false,
-                    Message = "کاربر یافت نشد"
+                   IsSuccess =false,
+                   Message = " کاربر یافت نشد "
                 };
             }
             else
@@ -38,7 +38,7 @@ namespace Application.Services.Users.Commands.ChangeUserStatus
                 return new ResultDto
                 {
                     IsSuccess = true,
-                    Message = ""
+                    Message = "وضعیت کاربر تغییر یافت"
                 };
             }
         }

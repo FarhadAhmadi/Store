@@ -31,7 +31,7 @@ namespace Application.Services.Users.Commands.AddUser
                     {
                         Result = null,
                         Message = "تمام موارد را پر کنید",
-                        Success = true
+                        IsSuccess = true
                     };
                 }
 
@@ -41,7 +41,7 @@ namespace Application.Services.Users.Commands.AddUser
                     {
                         Result = null,
                         Message = "رمز عبور با تکرار آن برابر نیست",
-                        Success = true
+                        IsSuccess = true
                     };
                 }
                     
@@ -97,7 +97,7 @@ namespace Application.Services.Users.Commands.AddUser
                         UserId = user.Id
                     },
                     Message = "ثبت نام با موفقیت انجام شد",
-                    Success = true
+                    IsSuccess = true
                 };
             }
             catch (Exception)
@@ -109,7 +109,7 @@ namespace Application.Services.Users.Commands.AddUser
                         UserId = 0
                     },
                     Message = "ناموفق",
-                    Success = false
+                    IsSuccess = false
                 };
             }
         }

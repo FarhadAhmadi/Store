@@ -16,6 +16,9 @@ namespace Application.Common.Interfaces
         DbSet<UserInRole> UserInRoles { get; set; }
         DbSet<Category> Categories { get; set; }
         DbSet<Product> Products { get; set; }
+        DbSet<ProductImages> ProductImages { get; set; }
+        DbSet<ProductComments> ProductComments { get; set; }
+        DbSet<ProductPrice> ProductPrices { get; set; }
 
 
         int SaveChanges(bool acceptAllChangesOnSuccess);

@@ -9,14 +9,16 @@ namespace Domain.Entities
 {
     public class Product : BaseEntity
     {
-        public Product() { 
-        }
-
         public string ProductName { get; set; }
         public int Count { get; set; }
-        public string Picture { get; set; }
-        
-        public Category Category { get;}
+        public bool Displayed { get; set; }
+        public int? ViewCount { get; set; }
+        public string Brand { get; set; }
+        public string Description { get; set; }
+        //category foreign key
+        public Category Category { get; set; }
         public int CategoryId { get; set; }
+
+        public ICollection<ProductPrice> ProductPrices { get; set; }
     }
 }

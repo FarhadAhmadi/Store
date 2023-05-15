@@ -1,4 +1,6 @@
 ﻿using Application.Services.Products.Commands.AddProduct;
+using Application.Services.Products.Commands.AddProductFeature;
+using Application.Services.Products.Commands.AddProductPrice;
 using Application.Services.Products.Queries.GetProducts;
 using System;
 using System.Collections.Generic;
@@ -12,5 +14,7 @@ namespace Application.Common.Interfaces.Facad
     {
         IAddProductService AddProductService { get; }
         IGetProductsService GetProductsService { get; }
+        IAddProductPriceService AddProductPriceService { get; }
+        IAddProductFeatureServcie AddProductFeatureServcie { get; }
     }
 }

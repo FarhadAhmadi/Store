@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence
 {
-    public class StoreDbContext : DbContext , IStoreDbContext
+    public class StoreDbContext : DbContext, IStoreDbContext
     {
         public StoreDbContext(DbContextOptions<StoreDbContext> contextOptions) : base(contextOptions)
         {
-            
+
         }
 
         public DbSet<User> Users { get; set; }
@@ -25,7 +25,8 @@ namespace Infrastructure.Persistence
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImages> ProductImages { get; set; }
         public DbSet<ProductComments> ProductComments { get; set; }
-        public DbSet<ProductPrice> ProductPrices  { get; set; }
+        public DbSet<ProductPrice> ProductPrices { get; set; }
+        public DbSet<ProductFeature> ProductFeatures { get; set; }
 
 
 

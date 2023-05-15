@@ -38,6 +38,11 @@ namespace WebUI.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddUser(AddUserViewModel addUserViewModel)
         {
+
+            List<ProductFeature> productFeatures = new List<ProductFeature>();
+            productFeatures.Add(new ProductFeature { Name = "Size", Value = "2x" });
+            productFeatures.Add(new ProductFeature { Name = "Price", Value = "2000" });
+
             var result = _userFacad.AddUserService.Execute(new RequestAddUserDto
             {
                 FullName = addUserViewModel.UserName,
@@ -80,5 +85,11 @@ namespace WebUI.Areas.Admin.Controllers
 
             return Json(result);
         }
+    }
+
+    public class ProductFeature
+    {
+        public string Name { get; set;}
+        public string Value { get; set;}
     }
 }

@@ -6,7 +6,7 @@ namespace Application.Services.Products.Commands.AddProduct
 {
     public interface IAddProductService
     {
-        ResultDto Execute(RequsetAddProductDto requset);
+        ResultDto<Product> Execute(RequsetAddProductDto requset);
     }
     public class AddProductService : IAddProductService
     {
@@ -17,7 +17,7 @@ namespace Application.Services.Products.Commands.AddProduct
             _context = context;
         }
 
-        public ResultDto Execute(RequsetAddProductDto requset)
+        public ResultDto<Product> Execute(RequsetAddProductDto requset)
         {
             try
             {
@@ -28,19 +28,8 @@ namespace Application.Services.Products.Commands.AddProduct
                     Count = requset.Count,
                     Displayed = requset.Displayed,
                     CategoryId = requset.CategoryId,
-                    InsertTime = DateTime.Now,
-                    IsActive = true,
-                    IsRemove = false,
-                    RemoveTime = null,
-                    UpdateTime = null,
                     Description = requset.Description,
-                };
 
-                ProductPrice price = new ProductPrice()
-                {
-                    Price = requset.Price,
-                    //ProductId = product.Id,
-                    Product = product,
                     InsertTime = DateTime.Now,
                     IsActive = true,
                     IsRemove = false,
@@ -49,25 +38,25 @@ namespace Application.Services.Products.Commands.AddProduct
                 };
 
                 _context.Products.Add(product);
-                _context.ProductPrices.Add(price);
                 _context.SaveChanges();
 
-                return new ResultDto
+                return new ResultDto<Product>
                 {
                     IsSuccess = true,
-                    Message = ""
+                    Message = "",
+                    Result = product
                 };
             }
             catch (Exception)
             {
-                return new ResultDto
+                return new ResultDto<Product>
                 {
                     IsSuccess = false,
-                    Message = "خطا در ثبت کالا"
+                    Message = "خطا در ثبت کالا",
+                    Result = null
                 };
             }
         }
-
     }
 
     public class RequsetAddProductDto
@@ -77,7 +66,6 @@ namespace Application.Services.Products.Commands.AddProduct
         public int Count { get; set; }
         public bool Displayed { get; set; }
         public int CategoryId { get; set; }
-        public string Price { get; set; }
         public string Description { get; set; }
     }
 }

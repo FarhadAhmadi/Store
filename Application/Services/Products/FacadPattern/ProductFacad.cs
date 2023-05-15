@@ -1,6 +1,8 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Facad;
 using Application.Services.Products.Commands.AddProduct;
+using Application.Services.Products.Commands.AddProductFeature;
+using Application.Services.Products.Commands.AddProductPrice;
 using Application.Services.Products.Queries.GetProducts;
 using Application.Services.Users.Commands.ChangeUserStatus;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +35,18 @@ namespace Application.Services.Products.FacadPattern
         public IGetProductsService GetProductsService
         {
             get { return _GetProductsService = _GetProductsService ?? new GetProductsService(_context); }
+        }
+
+        private IAddProductPriceService _AddProductPriceService;
+        public IAddProductPriceService AddProductPriceService
+        {
+            get { return _AddProductPriceService = _AddProductPriceService ?? new AddProductPriceService(_context); }
+        }
+
+        private IAddProductFeatureServcie _AddProductFeatureServcie;
+        public IAddProductFeatureServcie AddProductFeatureServcie
+        {
+            get { return _AddProductFeatureServcie = _AddProductFeatureServcie ?? new AddProductFeatureServcie(_context); }
         }
     }
 }

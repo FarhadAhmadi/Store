@@ -1,7 +1,11 @@
 ﻿using Application.Common.Interfaces.Facad;
 using Application.Services.Products.Commands.AddProduct;
+using Application.Services.Products.Commands.AddProductFeature;
+using Application.Services.Products.Commands.AddProductPrice;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using WebUI.Areas.Admin.Models;
 
 namespace WebUI.Areas.Admin.Controllers
@@ -11,7 +15,7 @@ namespace WebUI.Areas.Admin.Controllers
     {
         private readonly ICategoryFacad _categoryFacad;
         private readonly IProductFacad _productFacad;
-        public ProductController(ICategoryFacad categoryFacad , IProductFacad productFacad)
+        public ProductController(ICategoryFacad categoryFacad, IProductFacad productFacad)
         {
             _categoryFacad = categoryFacad;
             _productFacad = productFacad;
@@ -38,10 +42,44 @@ namespace WebUI.Areas.Admin.Controllers
                 Count = viewModel.Count,
                 Displayed = true,
                 Description = viewModel.Description,
-                Price = viewModel.Price,
             });
 
             return Json(result);
+        }
+        [HttpPost]
+        public IActionResult AddProductPrice(AddProductPriceViewModel viewModel)
+        {
+            var result = _productFacad.AddProductPriceService.Execute(new RequsetAddProductPrice
+            {
+                Price = viewModel.Price,
+                Product = viewModel.Product,
+            });
+
+            return Json(result);
+        }
+        [HttpPost]
+        public IActionResult AddProductFeature([FromBody] AddProductFeatureViewModel viewModels)
+        {
+
+            List<ProductFeatureDto> productFeatures = new List<ProductFeatureDto>();
+
+            productFeatures = viewModels.productFeatures.Select(e => new ProductFeatureDto
+            {
+                Key = e.Key,
+                Value = e.Value,
+            }).ToList();
+
+            var result = _productFacad.AddProductFeatureServcie.Execute(new AddProductFeatureDto
+            {
+                Product = viewModels.Product,
+                productFeatures = productFeatures
+            }) ;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddProductPicture()
+        {
+            return View();
         }
     }
 }

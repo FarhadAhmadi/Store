@@ -8,20 +8,20 @@
 
 <div @*role="form"*@>
     <div class="box-body">
-        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1" >
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
             <label for="exampleInputPassword1">نام محصول </label>
             <input type="text" class="form-control" id="ProductNameInput" placeholder="نام محصول">
         </div>
-        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1" >
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
             <label for="exampleInputPassword1">برند </label>
             <input type="email" class="form-control" id="BrandInput" placeholder="برند">
         </div>
-        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1" >
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
             <label> دسته بندی را انتخاب کنید</label>
             <select asp-items=@ViewBag.Parents class="form-control" id="CategoryInput">
             </select>
         </div>
-        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1" >
+        <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
             <label> تعداد موجود </label>
             <div class="input-group">
             </div>
@@ -42,7 +42,7 @@
         <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
             <fieldset class="form-group">
                 <label for="basicInput">تصاویر </label>
-                <input type="file" multiple class="form-control" accept="image/*" id="ImagesInput">
+                <input type="file" multiple class="form-control" id="PictureInput" accept="image/*" id="ImagesInput">
             </fieldset>
         </div>
         <div class="form-group col-xl-12 col-lg-12 col-md-12 mb-1">
@@ -106,11 +106,11 @@
 
 
     <script>
-        $("#btnAddFeatures").on("click", function () {
 
+
+        $("#btnAddFeatures").on("click", function () {
             var txtDisplayName = $("#txtDisplayName").val();
             var txtValue = $("#txtValue").val();
-
             if (txtDisplayName == "" || txtValue == "") {
                 swal.fire(
                     'هشدار!',
@@ -119,6 +119,7 @@
                 );
             }
             else {
+
                 $('#tbl_Features tbody').append('<tr> <td>' + txtDisplayName + '</td>  <td>' + txtValue + '</td> <td> <a class="idFeatures btnDelete btn btn-danger"> حذف </a> </td> </tr>');
                 $("#txtDisplayName").val('');
                 $("#txtValue").val('');
@@ -131,13 +132,16 @@
 
         function RegisterProduct() {
 
-
-
-
+            var dataFeaturesViewModel = $('#tbl_Features tr:gt(0)').map(function () {
+                return {
+                    Key: $(this.cells[0]).text(),
+                    Value: $(this.cells[1]).text(),
+                };
+            }).get();
 
             swal.fire({
                 title: 'ثبت نام کاربر',
-                text: "آیا میخواهید ثبت کالا را انجام دهید؟",
+                text: "آیا میخواهید ثبت نام کالا را انجام دهید؟",
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -147,54 +151,89 @@
             }).then((result) => {
                 if (result.value) {
 
-                    debugger
-                    var data = new FormData();
+                    var ProductName = $("#ProductNameInput").val();
+                    var Brand = $("#BrandInput").val();
+                    var Count = $("#CountInput").val();
+                    var CategoryId = $("#CategoryInput").val();
+                    var Description = $("#DescriptionInput").val();
 
-
-                    //data.append("ProductName", $("#ProductNameInput").val());
-                    //data.append("Brand", $("#BrandInput").val());
-                    //data.append("CategoryId", $("#CategoryInput").val());
-                    //data.append("Count", $("#CountInput").val());
-                    //data.append("Price", $("#PriceInput").val());
-                    //data.append("Displayed", $("#DisplayedInput").val());
-                    //data.append("Description", $("#DescriptionInput").val());
-
-                    var productName = $("#ProductNameInput").val();
-                    var brand = $("#BrandInput").val();
-                    var categoryId = $("#CategoryInput").val();
-                    var count = $("#CountInput").val();
-                    var price = $("#PriceInput").val();
-                    //var displayed = $("#DisplayedInput").val();
-                    var description = $("#DescriptionInput").val();
-
-                    var data = {
-                        'ProductName': productName,
-                        'Brand': brand,
-                        'CategoryId': categoryId,
-                        'Count': count,
-                        'Price': price,
-                        //'Displayed': displayed,
-                        'Description': description,
+                    var product = {
+                        'ProductName': ProductName,
+                        'Brand': Brand,
+                        'Count': Count,
+                        'CategoryId': CategoryId,
+                        'Description': Description,
                     };
-
-
-
-
                     $.ajax({
 
                         contentType: 'application/x-www-form-urlencoded',
                         dataType: 'json',
                         type: "POST",
-                        url: "AddProduct",
-                        data: data,
+                        url: "Addproduct",
+                        data: product,
                         success: function (data) {
                             if (data.isSuccess == true) {
-                                swal.fire(
-                                    'موفق!',
-                                    data.Message,
-                                    'success'
-                                ).then(function (isConfirm) {
-                                    location.reload();
+                                var product = data.result;
+
+                                var productPrice = {
+
+                                    'Price': $("#PriceInput").val(),
+                                    'Product': product,
+                                };
+
+                                $.ajax({
+                                    contentType: 'application/x-www-form-urlencoded',
+                                    dataType: 'json',
+                                    type: "POST",
+                                    url: "AddProductPrice",
+                                    data: productPrice,
+                                    success: function (data) {
+                                        if (data.isSuccess == true) {
+                                            var feature = {
+                                                'productFeatures': dataFeaturesViewModel,
+                                                'product': product
+                                            }
+                                            $.ajax({
+                                                contentType: 'application/json; charset=utf-8',
+                                                dataType: 'json',
+                                                type: "POST",
+                                                url: "AddProductFeature",
+                                                data: JSON.stringify(feature),
+                                                success: function (data) {
+                                                    if (data.isSuccess == true) {
+
+                                                    }
+                                                    else {
+
+                                                        swal.fire(
+                                                            'هشدار!',
+                                                            data.message,
+                                                            'warning'
+                                                        );
+
+                                                    }
+                                                },
+                                                error: function (request, status, error) {
+                                                    alert(request.responseText);
+                                                }
+                                            });
+
+
+                                        }
+                                        else {
+
+                                            swal.fire(
+                                                'هشدار!',
+                                                data.message,
+                                                'warning'
+                                            );
+
+                                        }
+                                    },
+                                    error: function (request, status, error) {
+                                        alert(request.responseText);
+                                    }
+
                                 });
 
 
@@ -217,7 +256,7 @@
 
 
                 }
-            })
+            });
         }
     </script>
 }

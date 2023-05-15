@@ -19,6 +19,7 @@ namespace Application.Common.Interfaces
         DbSet<ProductImages> ProductImages { get; set; }
         DbSet<ProductComments> ProductComments { get; set; }
         DbSet<ProductPrice> ProductPrices { get; set; }
+        DbSet<ProductFeature> ProductFeatures { get; set; }
 
 
         int SaveChanges(bool acceptAllChangesOnSuccess);

@@ -1,95 +1,47 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="%2a%2a\**" />
-    <Content Remove="%2a%2a\**" />
-    <EmbeddedResource Remove="%2a%2a\**" />
-    <None Remove="%2a%2a\**" />
-  </ItemGroup>
+	<ItemGroup>
+	  <None Include="Areas\Admin\Views\Categories\AddCategory.cshtml" />
+	  <None Include="Areas\Admin\Views\Categories\Index.cshtml" />
+	  <None Include="Areas\Admin\Views\Product\AddProduct.cshtml" />
+	  <None Include="Areas\Admin\Views\Product\Index.cshtml" />
+	  <None Include="Areas\Admin\Views\Shared\AdminLayout.cshtml" />
+	  <None Include="Areas\Admin\Views\User\AddUser.cshtml" />
+	  <None Include="Areas\Admin\Views\User\Index.cshtml" />
+	  <None Include="Views\Authentication\SignIn.cshtml" />
+	  <None Include="Views\Authentication\SignUp.cshtml" />
+	  <None Include="Views\Home\Index.cshtml" />
+	  <None Include="Views\ProductController1\Index.cshtml" />
+	  <None Include="Views\Shared\Error.cshtml" />
+	  <None Include="Views\Shared\_Layout.cshtml" />
+	  <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+	  <None Include="Views\_ViewImports.cshtml" />
+	  <None Include="Views\_ViewStart.cshtml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="%2a%2a/%2a.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.6" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="%2a%2a\%2a.config" />
-    <Content Remove="%2a%2a\%2a.cshtml" />
-    <Content Remove="%2a%2a\%2a.json" />
-    <Content Remove="%2a%2a\%2a.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="%2a%2a/%2a.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="%2a%2a/%2a" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
-    <Compile Include="Areas\Admin\Models\AddProductFeatureViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\AddProductPriceViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\AddProductViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\AddUserViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\editUserViewModel.cs" />
-    <Compile Include="Controllers\AuthenticationController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Models\ErrorViewModel.cs" />
-    <Compile Include="Program.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appsettings.Development.json" />
-    <Content Include="appsettings.json" />
-    <Content Include="Areas\Admin\Views\Categories\AddCategory.cshtml" />
-    <Content Include="Areas\Admin\Views\Categories\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\AddProduct.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\AdminLayout.cshtml" />
-    <Content Include="Areas\Admin\Views\User\AddUser.cshtml" />
-    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
-    <Content Include="Views\Authentication\SignIn.cshtml" />
-    <Content Include="Views\Authentication\SignUp.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\ProductController1\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
-    <Content Include="Views\_ViewImports.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Shared\_Layout.cshtml.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Application\Application.csproj" />
+		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+	</ItemGroup>
 
 </Project>

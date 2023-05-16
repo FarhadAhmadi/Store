@@ -36,19 +36,22 @@ namespace Application.Services.Products.Commands.AddProductPicture
                     List<ProductImages> productImages = new List<ProductImages>();
                     foreach (var iamge in request.Images)
                     {
-                        //var uploadResult = UploadFile(iamge);
-                        //productImages.Add(new ProductImages
-                        //{
-                        //    Src = uploadResult.FileNameAddress,
-                        //    ProductId = request.ProductId,
+                        var uploadResult = UploadPicture(iamge);
+                        if (uploadResult.Status == true)
+                        {
+                            productImages.Add(new ProductImages
+                            {
+                                Src = uploadResult.FileNameAddress,
+                                ProductId = request.ProductId,
 
-                        //    InsertTime = DateTime.Now,
-                        //    IsActive = true,
-                        //    IsRemove = false,
-                        //    RemoveTime = null,
-                        //    UpdateTime = null,
+                                InsertTime = DateTime.Now,
+                                IsActive = true,
+                                IsRemove = false,
+                                RemoveTime = null,
+                                UpdateTime = null,
 
-                        //});
+                            });
+                        }
                     }
                     _context.ProductImages.AddRange(productImages);
                     _context.SaveChanges();
@@ -76,42 +79,34 @@ namespace Application.Services.Products.Commands.AddProductPicture
             }
         }
 
-        private UploadDto UploadFile(IFormFile file)
+        public UploadDto UploadPicture(IFormFile file)
         {
-            if (file != null)
+            try
             {
-            
-                string folder = $@"\images\ProductImages\";
-                var uploadsRootFolder =  Path.Combine(_environment.WebRootPath, folder);
-                if (!Directory.Exists(uploadsRootFolder))
+
+                string wwwRootPath = _environment.WebRootPath;
+                string fileName = file.FileName;
+                string extension = Path.GetExtension(file.FileName);
+                string path = Path.Combine(wwwRootPath + "/Images/Product", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
                 {
-                    Directory.CreateDirectory(uploadsRootFolder);
+                    file.CopyToAsync(fileStream);
                 }
 
-
-                if (file == null || file.Length == 0)
+                return new UploadDto
                 {
-                    return new UploadDto()
-                    {
-                        Status = false,
-                        FileNameAddress = "",
-                    };
-                }
-
-                string fileName = DateTime.Now.Ticks.ToString() + file.FileName;
-                var filePath = Path.Combine(uploadsRootFolder, fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
-
-                return new UploadDto()
-                {
-                    FileNameAddress = folder + fileName,
-                    Status = true,
+                    FileNameAddress = path,
+                    Status = true
                 };
             }
-            return null;
+            catch (Exception)
+            {
+                return new UploadDto
+                {
+                    FileNameAddress = "",
+                    Status = false
+                };
+            }
         }
 
     }

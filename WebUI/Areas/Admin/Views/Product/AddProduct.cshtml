@@ -173,12 +173,14 @@
                         data: product,
                         success: function (data) {
                             if (data.isSuccess == true) {
+                                debugger
                                 var product = data.result;
-
+                                var productId = data.result.id;
+                                console.log(productId);
                                 var productPrice = {
 
                                     'Price': $("#PriceInput").val(),
-                                    'Product': product,
+                                    'ProductId': productId,
                                 };
 
                                 $.ajax({
@@ -191,7 +193,7 @@
                                         if (data.isSuccess == true) {
                                             var feature = {
                                                 'productFeatures': dataFeaturesViewModel,
-                                                'product': product
+                                                'productId': productId
                                             }
                                             $.ajax({
                                                 contentType: 'application/json; charset=utf-8',
@@ -201,6 +203,48 @@
                                                 data: JSON.stringify(feature),
                                                 success: function (data) {
                                                     if (data.isSuccess == true) {
+
+
+                                                        var fileUpload = $("#PictureInput").get(0);
+                                                        var files = fileUpload.files;
+
+                                                        // Create FormData object
+                                                        var fileData = new FormData();
+
+                                                        // Looping over all files and add it to FormData object
+                                                        for (var i = 0; i < files.length; i++) {
+                                                            fileData.append(files[i].name, files[i]);
+                                                        }
+
+                                                        // Adding one more key to FormData object
+                                                        fileData.append('productId', productId);
+
+
+                                                        $.ajax({
+                                                            url: 'AddProductPicture',
+                                                            type: "POST",
+                                                            contentType: false, // Not to set any content header
+                                                            processData: false, // Not to process data
+                                                            data: fileData,
+                                                            success: function (data) {
+                                                                if (data.isSuccess == true) {
+
+
+                                                                }
+                                                                else {
+
+                                                                    swal.fire(
+                                                                        'هشدار!',
+                                                                        data.message,
+                                                                        'warning'
+                                                                    );
+
+                                                                }
+                                                            },
+                                                            error: function (request, status, error) {
+                                                                alert(request.responseText);
+                                                            }
+                                                        });
 
                                                     }
                                                     else {

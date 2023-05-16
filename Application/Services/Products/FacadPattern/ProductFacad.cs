@@ -2,6 +2,7 @@
 using Application.Common.Interfaces.Facad;
 using Application.Services.Products.Commands.AddProduct;
 using Application.Services.Products.Commands.AddProductFeature;
+using Application.Services.Products.Commands.AddProductPicture;
 using Application.Services.Products.Commands.AddProductPrice;
 using Application.Services.Products.Queries.GetProducts;
 using Application.Services.Users.Commands.ChangeUserStatus;
@@ -47,6 +48,12 @@ namespace Application.Services.Products.FacadPattern
         public IAddProductFeatureServcie AddProductFeatureServcie
         {
             get { return _AddProductFeatureServcie = _AddProductFeatureServcie ?? new AddProductFeatureServcie(_context); }
+        }
+
+        private IAddProductPictureService _AddProductPictureService;
+        public IAddProductPictureService AddProductPictureService
+        {
+            get { return _AddProductPictureService = _AddProductPictureService ?? new AddProductPictureService(_context,_environment); }
         }
     }
 }

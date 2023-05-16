@@ -30,7 +30,7 @@ namespace Application.Services.Products.Commands.AddProductFeature
 
                 List<ProductFeature> Features = new List<ProductFeature>();
 
-                int productId = addProductFeature.Product.Id;
+                int productId = addProductFeature.productId;
 
                 foreach (var item in addProductFeature.productFeatures)
                 {
@@ -38,7 +38,7 @@ namespace Application.Services.Products.Commands.AddProductFeature
                     {
                         Key = item.Key,
                         value = item.Value,
-                        ProductId = addProductFeature.Product.Id,
+                        ProductId = addProductFeature.productId,
                     });
                 }
 
@@ -68,7 +68,7 @@ namespace Application.Services.Products.Commands.AddProductFeature
 public class AddProductFeatureDto
 {
     public List<ProductFeatureDto> productFeatures { get; set; }
-    public Product Product { get; set; }
+    public int productId { get; set; }
 }
 
 public class ProductFeatureDto

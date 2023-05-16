@@ -29,7 +29,7 @@ namespace Application.Services.Products.Commands.AddProductPrice
             {
                 ProductPrice productPrice = new ProductPrice()
                 {
-                    ProductId = requset.Product.Id,
+                    ProductId = requset.productId,
                     Price = requset.Price,
                     InsertTime = DateTime.Now,
                     IsActive = true,
@@ -59,7 +59,7 @@ namespace Application.Services.Products.Commands.AddProductPrice
     }
     public class RequsetAddProductPrice
     {
-        public Product Product { get; set; }
+        public int productId { get; set; }
         public string Price { get; set; }
     }
 }

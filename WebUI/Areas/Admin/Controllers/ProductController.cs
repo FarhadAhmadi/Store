@@ -5,8 +5,9 @@ using Application.Services.Products.Commands.AddProductPrice;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using WebUI.Areas.Admin.Models;
+using System.Web;
+using Application.Services.Products.Commands.AddProductPicture;
 
 namespace WebUI.Areas.Admin.Controllers
 {
@@ -43,7 +44,6 @@ namespace WebUI.Areas.Admin.Controllers
                 Displayed = true,
                 Description = viewModel.Description,
             });
-
             return Json(result);
         }
         [HttpPost]
@@ -52,9 +52,8 @@ namespace WebUI.Areas.Admin.Controllers
             var result = _productFacad.AddProductPriceService.Execute(new RequsetAddProductPrice
             {
                 Price = viewModel.Price,
-                Product = viewModel.Product,
+                productId = viewModel.productId,
             });
-
             return Json(result);
         }
         [HttpPost]
@@ -71,15 +70,25 @@ namespace WebUI.Areas.Admin.Controllers
 
             var result = _productFacad.AddProductFeatureServcie.Execute(new AddProductFeatureDto
             {
-                Product = viewModels.Product,
+                productId = viewModels.productId,
                 productFeatures = productFeatures
-            }) ;
-            return View();
+            });
+            return Json(result);
         }
         [HttpPost]
-        public IActionResult AddProductPicture()
+        public IActionResult AddProductPicture(int productId )
         {
-            return View();
+            RequestAddProductPicture request = new RequestAddProductPicture();
+            List<IFormFile> image = new List<IFormFile>();
+            foreach ( var file  in Request.Form.Files)
+            {
+                image.Add(file);
+            }
+            request.Images = image;
+            request.ProductId = productId;
+
+            var result = _productFacad.AddProductPictureService.Execute(request);
+            return Json(result);
         }
     }
 }

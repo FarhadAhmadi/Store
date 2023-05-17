@@ -20,5 +20,7 @@ namespace Domain.Entities
         public int CategoryId { get; set; }
 
         public ICollection<ProductPrice> ProductPrices { get; set; }
+        public ICollection<Product> Products { get; set; }
+
     }
 }

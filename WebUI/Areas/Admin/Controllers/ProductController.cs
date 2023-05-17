@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using WebUI.Areas.Admin.Models;
 using System.Web;
 using Application.Services.Products.Commands.AddProductPicture;
+using Application.Services.Products.Commands.EditProduct;
 
 namespace WebUI.Areas.Admin.Controllers
 {
@@ -24,6 +25,12 @@ namespace WebUI.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View(_productFacad.GetProductsService.Execute());
+        }
+        [HttpPost]
+        public IActionResult GetProductFeature(int productId)
+        {
+            var result = _productFacad.GetProductFeatureService.Execute(productId);
+            return Json(result);
         }
 
         [HttpGet]
@@ -89,6 +96,30 @@ namespace WebUI.Areas.Admin.Controllers
 
             var result = _productFacad.AddProductPictureService.Execute(request);
             return Json(result);
+        }
+        [HttpDelete]
+        public IActionResult Delete(int productId)
+        {
+            return Json(_productFacad.DeleteProductServcie.Execute(productId));
+        }
+        [HttpPost]
+        public IActionResult ChangeStatus(int productId)
+        {
+            return Json(_productFacad.ChangeProductStatusService.Execute(productId));
+        }
+        [HttpPut]
+        public IActionResult Edit(EditProductViewModel viewModel)
+        {
+            return Json(_productFacad.EditProductService.Execute(new ProductEditRequestDto
+            {
+                ProductName = viewModel.ProductName,
+                Brand = viewModel.Brand,
+                Count = viewModel.Count,
+                Description = viewModel.Description,
+                PriceId = viewModel.PriceId,
+                Price = viewModel.Price,
+                ProductId = viewModel.ProductId,
+            }));
         }
     }
 }

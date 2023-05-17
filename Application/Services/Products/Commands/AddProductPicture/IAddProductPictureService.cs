@@ -87,7 +87,7 @@ namespace Application.Services.Products.Commands.AddProductPicture
                 string wwwRootPath = _environment.WebRootPath;
                 string fileName = file.FileName;
                 string extension = Path.GetExtension(file.FileName);
-                string path = Path.Combine(wwwRootPath + "/Images/Product", fileName);
+                string path = Path.Combine("C:/Users/Farhad/Desktop/Store/WebUI/wwwroot/Images/Product/", fileName);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     file.CopyToAsync(fileStream);

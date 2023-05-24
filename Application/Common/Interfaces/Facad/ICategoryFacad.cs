@@ -1,4 +1,5 @@
 ﻿using Application.Services.Category.Commands.AddCategory;
+using Application.Services.Category.Commands.AddCategoryPicture;
 using Application.Services.Category.Commands.EditCategory;
 using Application.Services.Category.Commands.RemoveCategory;
 using Application.Services.Category.Queries.GetCategories;
@@ -18,5 +19,7 @@ namespace Application.Common.Interfaces.Facad
         IAddCategoryService AddCategoryService { get; }
         IRemoveCategoryService RemoveCategoryService { get; }
         IEditCategoryService EditCategoryService { get; }
+        IAddCategoryPictureService AddCategoryPictureService { get; }
+        
     }
 }

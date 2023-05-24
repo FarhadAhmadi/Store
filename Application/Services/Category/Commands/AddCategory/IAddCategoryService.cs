@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Application.Services.Category.Queries.GetCategories;
 using Domain.Entities;
 using Domain.Entities.User;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Application.Services.Category.Commands.AddCategory
 {
     public interface IAddCategoryService
     {
-        ResultDto Execute(string categoryName, int parentId);
+        ResultDto<AddCategoryResultDto> Execute(string categoryName, int parentId);
     }
     public class AddCategoryService : IAddCategoryService
     {
@@ -22,12 +23,10 @@ namespace Application.Services.Category.Commands.AddCategory
         {
             _context = context;
         }
-        public ResultDto Execute(string categoryName, int parentId)
+        public ResultDto<AddCategoryResultDto> Execute(string categoryName, int parentId)
         {
             try
             {
-
-
                 Domain.Entities.Category category = new Domain.Entities.Category()
                 {
                     Name = categoryName,
@@ -37,25 +36,29 @@ namespace Application.Services.Category.Commands.AddCategory
                 _context.Categories.Add(category);
                 _context.SaveChanges();
 
-                return new ResultDto
+                return new ResultDto<AddCategoryResultDto>
                 {
+                    Result = new AddCategoryResultDto
+                    {
+                        CategoryId = category.Id,
+                    },
                     IsSuccess = true,
                     Message = "با موفقیت اضافه شد"
                 };
             }
             catch (Exception)
             {
-
-                return new ResultDto
+                return new ResultDto<AddCategoryResultDto>
                 {
+                    Result = null,
                     IsSuccess = false,
                     Message = "خطا در برنامه "
                 };
             }
-
-
-
-            throw new NotImplementedException();
         }
+    }
+    public class AddCategoryResultDto
+    {
+        public int CategoryId { get; set; }
     }
 }

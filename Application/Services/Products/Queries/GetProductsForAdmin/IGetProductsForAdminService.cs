@@ -24,20 +24,13 @@ namespace Application.Services.Products.Queries.GetProducts
         public ResultDto<List<GetProductsDto>> Execute()
         {
             try
+            
             {
                 var result = _context.Products
     .Join(_context.ProductPrices,
     product => product.Id,
     price => price.ProductId,
     (product, price) => new { product, price })
-
-
-
-
-
-
-
-
     .Select(result => new GetProductsDto
     {
         ProductId = result.product.Id,
@@ -50,7 +43,6 @@ namespace Application.Services.Products.Queries.GetProducts
         Price = result.price.Price,
         IsActive = result.product.IsActive,
         IsRemove = result.product.IsRemove,
-        
     }).ToList();
 
                 return new ResultDto<List<GetProductsDto>>
@@ -59,7 +51,6 @@ namespace Application.Services.Products.Queries.GetProducts
                     IsSuccess = true,
                     Message = "",
                 };
-
             }
             catch (Exception)
             {

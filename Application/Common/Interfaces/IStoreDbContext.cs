@@ -15,6 +15,7 @@ namespace Application.Common.Interfaces
         DbSet<Role> Roles { get; set; }
         DbSet<UserInRole> UserInRoles { get; set; }
         DbSet<Category> Categories { get; set; }
+        DbSet<CategoryImages> CategoryImages { get; set; }
         DbSet<Product> Products { get; set; }
         DbSet<ProductImages> ProductImages { get; set; }
         DbSet<ProductComments> ProductComments { get; set; }

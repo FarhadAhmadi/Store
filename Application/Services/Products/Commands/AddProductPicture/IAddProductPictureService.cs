@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Application.Services.Products.Commands.AddProductPicture
 {
@@ -37,11 +38,12 @@ namespace Application.Services.Products.Commands.AddProductPicture
                     foreach (var iamge in request.Images)
                     {
                         var uploadResult = UploadPicture(iamge);
-                        if (uploadResult.Status == true)
+                        if (uploadResult.Status)
                         {
+                            string src = uploadResult.FileNameAddress;
                             productImages.Add(new ProductImages
                             {
-                                Src = uploadResult.FileNameAddress,
+                                Src = src,
                                 ProductId = request.ProductId,
 
                                 InsertTime = DateTime.Now,
@@ -95,7 +97,7 @@ namespace Application.Services.Products.Commands.AddProductPicture
 
                 return new UploadDto
                 {
-                    FileNameAddress = path,
+                    FileNameAddress = "/Images/Product/" + fileName,
                     Status = true
                 };
             }

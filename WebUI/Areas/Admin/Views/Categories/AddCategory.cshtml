@@ -6,16 +6,23 @@
 }
 
 <div class="box-body">
-    <div class="form-group col-sm-6">
+    <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
         <label for="exampleInputEmail1">نام دسته بندی</label>
         <input type="email" class="form-control" id="categoryInput" placeholder="نام دسته بندی ">
     </div>
 
-    <fieldset class="form-group col-sm-4">
+    <fieldset class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
         <label> پدر دسته بندی </label>
         <select asp-items=@ViewBag.parents name="Parents"  class="form-control" id="ParentInput">
         </select>
     </fieldset>
+    <div class="form-group col-xl-2 col-lg-6 col-md-12 mb-1">
+        <fieldset class="form-group">
+            <label for="basicInput">تصاویر </label>
+            <input type="file" multiple class="form-control" id="PictureInput" accept="image/*" id="ImagesInput">
+        </fieldset>
+    </div>
+
 </div>
 
 <div class="box-footer">
@@ -47,7 +54,6 @@
             }).then((result) => {
                 if (result.value) {
 
-                    debugger
 
                     var categoryName = $("#categoryInput").val();
                     var parentId = $("#ParentInput").val();
@@ -66,12 +72,56 @@
                         data: addUserViewModel,
                         success: function (data) {
                             if (data.isSuccess == true) {
-                                swal.fire(
-                                    'موفق!',
-                                    data.message,
-                                    'success'
-                                ).then(function (isConfirm) {
-                                    location.reload();
+                                debugger
+                                var fileUpload = $("#PictureInput").get(0);
+                                var files = fileUpload.files;
+
+                                // Create FormData object
+                                var fileData = new FormData();
+
+                                // Looping over all files and add it to FormData object
+                                for (var i = 0; i < files.length; i++) {
+                                    fileData.append(files[i].name, files[i]);
+                                }
+
+                                // Adding one more key to FormData object
+                                console.log(data.result.categoryId)
+                                fileData.append('categoryId', data.result.categoryId);
+
+
+
+
+                                $.ajax({
+                                    url: 'AddCategoryPicture',
+                                    type: "POST",
+                                    contentType: false, // Not to set any content header
+                                    processData: false, // Not to process data
+                                    data: fileData,
+                                    success: function (data) {
+                                        if (data.isSuccess == true) {
+
+                                            swal.fire(
+                                                'موفق!',
+                                                data.Message,
+                                                'success'
+                                            ).then(function (isConfirm) {
+                                                location.reload();
+                                            });
+
+                                        }
+                                        else {
+
+                                            swal.fire(
+                                                'هشدار!',
+                                                data.message,
+                                                'warning'
+                                            );
+
+                                        }
+                                    },
+                                    error: function (request, status, error) {
+                                        alert(request.responseText);
+                                    }
                                 });
 
 

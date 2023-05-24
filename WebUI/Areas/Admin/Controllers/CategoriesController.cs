@@ -1,4 +1,6 @@
 ﻿using Application.Common.Interfaces.Facad;
+using Application.Services.Category.Commands.AddCategory;
+using Application.Services.Category.Commands.AddCategoryPicture;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -27,7 +29,22 @@ namespace WebUI.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddCategory(string categoryName , int parentId) 
         {
-            return Json(_categoryFacad.AddCategoryService.Execute(categoryName, parentId));
+            var result = _categoryFacad.AddCategoryService.Execute(categoryName, parentId);
+            return Json(result);
+        }
+        public IActionResult AddCategoryPicture(int categoryId)
+        {
+            AddCategoryPictureRequestDto requestDto = new AddCategoryPictureRequestDto();
+            List<IFormFile> Images = new List<IFormFile>();
+
+            foreach (var file in Request.Form.Files)
+            {
+                Images.Add(file);
+            }
+            requestDto.Images = Images;
+            requestDto.CategoryId = categoryId;
+
+            return Json(_categoryFacad.AddCategoryPictureService.Execute(requestDto));
         }
 
         [HttpPost]

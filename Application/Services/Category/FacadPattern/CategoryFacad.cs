@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Facad;
 using Application.Services.Category.Commands.AddCategory;
+using Application.Services.Category.Commands.AddCategoryPicture;
 using Application.Services.Category.Commands.EditCategory;
 using Application.Services.Category.Commands.RemoveCategory;
 using Application.Services.Category.Queries.GetCategories;
@@ -54,6 +55,12 @@ namespace Application.Services.Category.FacadPattern
         public IEditCategoryService EditCategoryService
         {
             get { return _EditCategoryService = _EditCategoryService ?? new EditCategoryService(_context); }
+        }
+
+        private IAddCategoryPictureService _AddCategoryPictureService;
+        public IAddCategoryPictureService AddCategoryPictureService
+        {
+            get { return _AddCategoryPictureService = _AddCategoryPictureService ?? new AddCategoryPictureService(_context, _environment); }
         }
     }
 }

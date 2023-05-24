@@ -6,6 +6,7 @@ using Application.Services.Products.Commands.ChangeProductStatus;
 using Application.Services.Products.Commands.DeleteProduct;
 using Application.Services.Products.Commands.EditProduct;
 using Application.Services.Products.Queries.GetProductFeature;
+using Application.Services.Products.Queries.GetProductPicture;
 using Application.Services.Products.Queries.GetProducts;
 using System;
 using System.Collections.Generic;
@@ -26,5 +27,6 @@ namespace Application.Common.Interfaces.Facad
         IDeleteProductServcie DeleteProductServcie { get; }
         IChangeProductStatusService ChangeProductStatusService { get; }
         IEditProductService EditProductService { get; }
+        IGetProductPictureService GetProductPictureService { get; }
     }
 }

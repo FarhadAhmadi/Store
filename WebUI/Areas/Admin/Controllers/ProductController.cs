@@ -9,6 +9,7 @@ using WebUI.Areas.Admin.Models;
 using System.Web;
 using Application.Services.Products.Commands.AddProductPicture;
 using Application.Services.Products.Commands.EditProduct;
+using Application.Services.Products.Queries.GetProductPicture;
 
 namespace WebUI.Areas.Admin.Controllers
 {
@@ -83,11 +84,11 @@ namespace WebUI.Areas.Admin.Controllers
             return Json(result);
         }
         [HttpPost]
-        public IActionResult AddProductPicture(int productId )
+        public IActionResult AddProductPicture(int productId)
         {
             RequestAddProductPicture request = new RequestAddProductPicture();
             List<IFormFile> image = new List<IFormFile>();
-            foreach ( var file  in Request.Form.Files)
+            foreach (var file in Request.Form.Files)
             {
                 image.Add(file);
             }
@@ -120,6 +121,18 @@ namespace WebUI.Areas.Admin.Controllers
                 Price = viewModel.Price,
                 ProductId = viewModel.ProductId,
             }));
+        }
+        [HttpGet]
+        //[Route("{productId}")]
+        public IActionResult Pictures(int productId)
+        
+        {
+            if (productId != 0)
+            {
+               ViewData["Pictures"] = _productFacad.GetProductPictureService.Execute(productId).ToList();
+               return View();
+            }
+            return View();
         }
     }
 }

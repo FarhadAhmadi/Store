@@ -8,6 +8,7 @@ using Application.Services.Products.Commands.ChangeProductStatus;
 using Application.Services.Products.Commands.DeleteProduct;
 using Application.Services.Products.Commands.EditProduct;
 using Application.Services.Products.Queries.GetProductFeature;
+using Application.Services.Products.Queries.GetProductPicture;
 using Application.Services.Products.Queries.GetProducts;
 using Application.Services.Users.Commands.ChangeUserStatus;
 using Microsoft.AspNetCore.Hosting;
@@ -81,6 +82,11 @@ namespace Application.Services.Products.FacadPattern
         public IEditProductService EditProductService
         {
             get { return _EditProductService = _EditProductService ?? new EditProductService(_context); }
+        }
+        private IGetProductPictureService _GetProductPictureService;
+        public IGetProductPictureService GetProductPictureService
+        {
+            get { return _GetProductPictureService = _GetProductPictureService ?? new GetProductPictureService(_context); }
         }
     }
 }

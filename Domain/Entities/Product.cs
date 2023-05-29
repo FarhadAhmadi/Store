@@ -20,6 +20,8 @@ namespace Domain.Entities
         public int CategoryId { get; set; }
 
         public ICollection<ProductPrice> ProductPrices { get; set; }
+        public ICollection<ProductImages> ProductImages { get; set; }
+        public ICollection<ProductFeature> ProductFeatures { get; set; }
         public ICollection<Product> Products { get; set; }
 
     }

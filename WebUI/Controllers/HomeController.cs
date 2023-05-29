@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Common.Interfaces.Facad;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebUI.Models;
 
@@ -6,26 +7,20 @@ namespace WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ICategoryFacad _categoryFacad;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICategoryFacad categoryFacad)
         {
-            Stack<string> productFeaturesStack = new Stack<string>();
-
-            productFeaturesStack.Push("1");
-            productFeaturesStack.Push("2");
-            productFeaturesStack.Push("3");
-
-            var x = productFeaturesStack.Pop();
-            var y = productFeaturesStack.Pop();
-
-
-            _logger = logger;
+            _categoryFacad = categoryFacad;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_categoryFacad.GetCategoryPicturesForSiteService.Execute());
+        }
+        public IActionResult CategoryProducts( int CategoryId)
+        {
+            return View(_categoryFacad.GetCategoryProductsForSiteService.Execute(CategoryId));
         }
     }
 }

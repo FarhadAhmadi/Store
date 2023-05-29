@@ -17,7 +17,6 @@
 	  <None Include="Views\Authentication\SignIn.cshtml" />
 	  <None Include="Views\Authentication\SignUp.cshtml" />
 	  <None Include="Views\Home\Index.cshtml" />
-	  <None Include="Views\ProductController1\Index.cshtml" />
 	  <None Include="Views\Shared\Error.cshtml" />
 	  <None Include="Views\Shared\_Layout.cshtml" />
 	  <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />

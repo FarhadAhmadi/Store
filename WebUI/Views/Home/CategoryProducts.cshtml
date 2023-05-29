@@ -1,0 +1,34 @@
+﻿@using Application.Common.DTO;
+@using Application.Services.Category.Queries.GetCategoryProductsForSite;
+@model ResultDto<List<GetCategoryProductsResultDto>>
+@{
+    ViewData["Title"] = "CategoryProducts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    @foreach (var item in Model.Result)
+    {
+
+
+        <div class="col-lg-3 col-md-3 col-xs-12 order-1 d-block mb-3">
+            <section class="product-box product product-type-simple" style="width: 300px; float : left">
+                <div class="thumb">
+                    <a href="/product/detail?productId= + @item.ProductId" class="d-block">
+                        <div class="product-rate">
+                        </div>
+                        <img width="265" height="300" src="@item.ImageSrc">
+                    </a>
+                </div>
+                <div class="title">
+                    <a href="/product/detail?productId= + @item.ProductId ">  @item.ProductName</a>
+                </div>
+                <div class="price">
+                    <span class="amount">
+                        @item.productPrice.ToString("n0")
+                        <span>تومان</span>
+                    </span>
+                </div>
+            </section>
+        </div>
+    }
+</div>

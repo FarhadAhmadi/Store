@@ -3,6 +3,8 @@ using Application.Services.Category.Commands.AddCategoryPicture;
 using Application.Services.Category.Commands.EditCategory;
 using Application.Services.Category.Commands.RemoveCategory;
 using Application.Services.Category.Queries.GetCategories;
+using Application.Services.Category.Queries.GetCategoryPicturesForSite;
+using Application.Services.Category.Queries.GetCategoryProductsForSite;
 using Application.Services.Category.Queries.GetParentCategory;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,8 @@ namespace Application.Common.Interfaces.Facad
         IRemoveCategoryService RemoveCategoryService { get; }
         IEditCategoryService EditCategoryService { get; }
         IAddCategoryPictureService AddCategoryPictureService { get; }
+        IGetCategoryPicturesForSiteService GetCategoryPicturesForSiteService { get; }
+        IGetCategoryProductsForSiteService GetCategoryProductsForSiteService  { get; }
         
     }
 }

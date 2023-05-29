@@ -1,5 +1,27 @@
-﻿@{
+﻿@using Application.Common.DTO;
+@using Application.Services.Category.Queries.GetCategoryPicturesForSite;
+@model ResultDto<List<GetCategoryPicturesForSiteResultDto>>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<h1>salam</h1>
+@foreach (var item in Model.Result)
+{
+    <div style="float: left; margin: 20px ;  margin-left : 50px">
+        <div data-cro-id="hp-categories-icons" class="WidgetMainCategory_WidgetMainCategory__box6__qLGLK">
+            <a class="d-flex flex-column ai-center user-select-none w-full p-0-lg mx-0-lg" href="Home/CategoryProducts?CategoryId= + @item.CategoryId">
+                <div title="" class="d-flex ai-center jc-center" style="width: 170px; height: 170px;">
+                    <picture>
+                        <img class="w-100 h-100 d-inline-block lazyloaded" width="170" height="170" alt="@item.CategoryName" style="object-fit: contain;" src="@item.Src">
+                    </picture>
+                </div>
+            </a>
+            <p  style="text-align:center"> @item.CategoryName</p>
+        </div>
+    </div>
+}
+
+@section javascript{
+
+
+}

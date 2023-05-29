@@ -7,6 +7,7 @@ using Application.Services.Products.Commands.AddProductPrice;
 using Application.Services.Products.Commands.ChangeProductStatus;
 using Application.Services.Products.Commands.DeleteProduct;
 using Application.Services.Products.Commands.EditProduct;
+using Application.Services.Products.Queries.GetProductDetailForSite;
 using Application.Services.Products.Queries.GetProductFeature;
 using Application.Services.Products.Queries.GetProductPicture;
 using Application.Services.Products.Queries.GetProducts;
@@ -87,6 +88,12 @@ namespace Application.Services.Products.FacadPattern
         public IGetProductPictureService GetProductPictureService
         {
             get { return _GetProductPictureService = _GetProductPictureService ?? new GetProductPictureService(_context); }
+        }
+
+        public IGetProductDetailForSiteService _GetProductDetailForSiteService;
+        public IGetProductDetailForSiteService GetProductDetailForSiteService
+        {
+            get { return _GetProductDetailForSiteService = _GetProductDetailForSiteService ?? new GetProductDetailForSiteService(_context);}
         }
     }
 }

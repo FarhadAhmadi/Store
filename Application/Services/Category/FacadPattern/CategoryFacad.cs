@@ -5,6 +5,8 @@ using Application.Services.Category.Commands.AddCategoryPicture;
 using Application.Services.Category.Commands.EditCategory;
 using Application.Services.Category.Commands.RemoveCategory;
 using Application.Services.Category.Queries.GetCategories;
+using Application.Services.Category.Queries.GetCategoryPicturesForSite;
+using Application.Services.Category.Queries.GetCategoryProductsForSite;
 using Application.Services.Category.Queries.GetParentCategory;
 using Application.Services.Users.Commands.DeleteUser;
 using Microsoft.AspNetCore.Hosting;
@@ -61,6 +63,17 @@ namespace Application.Services.Category.FacadPattern
         public IAddCategoryPictureService AddCategoryPictureService
         {
             get { return _AddCategoryPictureService = _AddCategoryPictureService ?? new AddCategoryPictureService(_context, _environment); }
+        }
+        private IGetCategoryPicturesForSiteService _GetCategoryPicturesForSiteService;
+        public IGetCategoryPicturesForSiteService GetCategoryPicturesForSiteService
+        {
+            get { return _GetCategoryPicturesForSiteService = _GetCategoryPicturesForSiteService ?? new GetCategoryPicturesForSiteService(_context); }
+        }
+
+        private IGetCategoryProductsForSiteService _GetCategoryProductsForSiteService;
+        public IGetCategoryProductsForSiteService GetCategoryProductsForSiteService
+        {
+            get { return _GetCategoryProductsForSiteService = _GetCategoryProductsForSiteService ?? new GetCategoryProductsForSiteService(_context); }
         }
     }
 }
